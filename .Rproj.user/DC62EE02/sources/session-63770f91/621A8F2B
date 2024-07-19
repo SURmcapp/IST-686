@@ -3,7 +3,7 @@
     "path": "~/SYR/IST-686/IST-686 Textbook Ch02.Rmd",
     "project_path": "IST-686 Textbook Ch02.Rmd",
     "type": "r_markdown",
-    "hash": "0",
+    "hash": "1320894196",
     "contents": "",
     "dirty": false,
     "created": 1721378497405.0,
@@ -14,15 +14,15 @@
         "chunk_output_type": "inline",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "54,3",
+        "cursorPosition": "6,7",
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1721383031,
+    "lastKnownWriteTime": 1721397412,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1721383031065,
+    "last_content_update": 1721397412529,
     "read_only": false,
     "read_only_alternatives": []
 }

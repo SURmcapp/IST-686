@@ -4,7 +4,7 @@ output:
   word_document: default
   html_notebook: default
 ---
-
+little 
 ### Outcome Tables
 
 Use R to produce random binomial trials
