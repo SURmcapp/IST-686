@@ -1,0 +1,2 @@
+"0",""
+"0","hist(rbinom(n=1000,size=6,prob=0.5))"

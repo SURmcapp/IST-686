@@ -1,0 +1,63 @@
+---
+title: "IST-686 Textbook Ch 02 - Reasoning with Probability"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+### Outcome Tables
+
+Use R to produce random binomial trials
+
+```{r}
+
+table(rbinom(n=100,size=6,prob=0.5))
+
+```
+
+rbinom finction witout table()
+
+```{r}
+rbinom(n=100,size=6,prob=0.5)
+```
+
+### Visualize the Distribution
+
+```{r}
+hist(rbinom(n=100,size=6,prob=0.5))
+
+hist(rbinom(n=1000,size=6,prob=0.5))
+```
+
+
+```{r}
+barplot(table(rbinom(n=100, size=6, prob=0.5)))
+```
+
+
+### Visualize the Distribution-- more 
+
+```{r}
+# Generate the data
+data <- rbinom(n=100, size=6, prob=0.5)
+
+# Create a frequency table
+freq_table <- table(data)
+
+# Plot the frequency table
+barplot(freq_table, 
+        main="Frequency of Number of Successes", 
+        xlab="Number of Successes", 
+        ylab="Frequency", 
+        col="lightblue", 
+        border="black")
+
+```
+
+
+
+```{r}
+table(rbinom(n=1000,size=6,prob=0.5))/1000
+barplot(table(rbinom(n=100,size=6,prob=0.5))/1000)
+```
+
