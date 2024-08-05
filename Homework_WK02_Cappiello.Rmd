@@ -3,77 +3,68 @@ title: "Homework Chapter 2 - Mark Cappiello"
 output:
   word_document: default
   html_notebook: default
+  html_document:
+    df_print: paged
 ---
 
 1. Flip a fair coin nine times and write down the number of heads obtained. Now repeat this process 100,000 times. Obviously you don’t want to have to do that by hand, so create the necessary lines of R code to do it for you. Hint: You will need both the rbinom() function and the table() function. Write down the results and explain in your own words what they mean.
 
 ```{r}
-# Set seed for reproducibility
-set.seed(123)
 
-# Number of trials
-num_trials <- 100000
+results <- table(rbinom(n=100000,size=9,prob=0.5))
 
-# Number of coin flips per trial
-num_flips <- 9
-
-# Probability of getting a head (for a fair coin)
-prob_head <- 0.5
-
-# Simulate the trials
-results <- rbinom(num_trials, num_flips, prob_head)
-
-# Summarize the results
-summary_table <- table(results)
-
-# Print the summary table
-print(summary_table)
-
-# Optional: Plot the distribution of the results
-barplot(summary_table, main="Distribution of Number of Heads in 9 Coin Flips",
-        xlab="Number of Heads", ylab="Frequency", col="lightblue", border="black")
+results
 
 ```
 
 Explanation of the Code
 
-Setting Seed: set.seed(123) ensures that the results are reproducible. Different seeds will yield different random sequences.
+Defining Variables in the rbinom function
+n = 100,000 (this is the number of trials in our binary distribution)
 
-Defining Variables:
-num_trials: The number of times we repeat the process (100,000 times).
+size = 9 (this is the number of events in each trial, in other words we will flip the coin 9 times in each trial)
 
-num_flips: The number of coin flips per trial (9 flips).
+prob = .5 (this is the probability that a fair coin will land on heads)
 
-prob_head: The probability of getting a head in a single flip (0.5 for a fair coin).
+simulating the trials: The rbinom() function simulates 100,000 trials of flipping a coin 9 times each and counts the number of heads in each trial.
 
-Simulating Trials: rbinom(num_trials, num_flips, prob_head) simulates 100,000 trials of flipping a coin 9 times each and counts the number of heads in each trial.
-
-Summarizing Results: table(results) creates a frequency table of the number of heads obtained in each trial.
-Printing and Plotting: The summary table is printed and optionally plotted to visualize the distribution of the number of heads.
+summarizing the results: The table() function creates a frequency table of the number of heads resultin from each trial.
 
 
 2. Using the output from Exercise 1, summarize the results of your 100,000 trials of nine flips each in a bar plot using the appropriate commands in R. Convert the results to probabilities and represent that in a bar plot as well. Write a brief interpretive analysis that describes what each of these bar plots signifies and how the two bar plots are related. Make sure to comment on the shape of each bar plot and why you believe that the bar plot has taken that shape. Also make sure to say something about the center of the bar plot and why it is where it is. 
 
 ```{r}
-# Convert frequencies to probabilities
-probabilities <- summary_table / num_trials
 
-# Bar plot for frequencies
-barplot(summary_table, 
-        main="Distribution: Heads in 9 Coin Flips (Frequencies)",
-        xlab="Number of Heads", ylab="Frequency", 
-        col="lightblue", border="black")
+barplot(results)
 
-# Bar plot for probabilities
-barplot(probabilities, 
-        main="Distribution: Heads in 9 Coin Flips (Probabilities)",
-        xlab="Number of Heads", ylab="Probability", 
-        col="lightgreen", border="black")
 ```
-
-6. One hundred students took a statistics test. Fifty of them are high school students and 50 are college students. Eighty students passed and 20 students failed. You now have enough information to create a two-by-two contingency table with all of the marginal totals specified (although the four main cells of the table are still blank). Draw that table and write in the marginal totals. I’m now going to give you one additional piece of information that will fill in one of the four blank cells: only three college students failed the test. With that additional information in place, you should now be able to fill in the remaining cells of the two-by-two table. Comment on why that one additional piece of information was all you needed in order to figure out all four of the table’s main cells. Finally, create a second copy of the complete table, replacing the counts of students with probabilities. What is the pass rate for high school students? In other words, if one focuses only on high school students, what is the probability that a student will pass the test? 
-
 ```{r}
+probabilities <- results/100000
 
+probabilities
+
+barplot(probabilities)
 ```
+
+
+
+Analysis:
+Raw Counts Bar Plot
+The first bar plot shows the event counts of the number of heads recorded in 9 coin flips from our 100,000 trials. The x-axis represents the possible outcomes of 0 to 9 heads, and the y-axis shows the count of each outcome. This bar plot is centered around outcomes of 4 to 5 heads.  This indicates that these outcomes occur most frequently.
+
+The shape of the plot is a bell curve that is symmetric and that resembles a normal binomial distribution. This is to be expected because each flip is independent and has a 50 percent chance of being heads. The greatest number of heads outcomes is centered around 4 or 5 heads meaning that is the most likely outcome. Moving away from the center, the counts decrease symmetrically, reflecting the lower probabilities of extreme outcomes of 0 or 9 heads.
+
+Probabilities Bar Plot
+The second bar plot converts our data raw counts into probabilities by dividing each count by the 100000 or the total number of trials. The x-axis represents the number of heads. The y-axis represents the probability of each outcome.
+
+This plot has the same shape as the raw counts plot from above.  But the y-axis is scaled to probabilities of the outcomes. The center of the plot remains around 4 or 5 heads, which have the highest probabilities. The shape is still bell-shaped and symmetric, and it indicates that the probabilities of the outcomes follow a normal binomial distribution.
+
+Relationship Between the Plots
+The shape and center of both plots are the same because they represent the same underlying distribution. The first plot shows the frequency of each outcome, while the second plot shows the relative probabilities of the same data. 
+
+Shape and Center of the Bar Plots
+The bell-shaped, symmetric form of both plots is characteristic of a binomial distribution. With 9 flips and a fair coin, the expected number of heads is 4.5 (which is the mean of the distribution), and the probabilities are highest near this value. The center of the plots reflects the expected mean outcome, with the number of heads clustering around the middle values (4 and 5), where the combination of flips is most numerous. This central tendency and the symmetrical decrease in probabilities for more extreme outcomes explain the shape of both plots.
+
+
+Questions 6 and 7 are included in this week's .docx file
 
