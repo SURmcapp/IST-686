@@ -40,6 +40,7 @@ mean(ChickWeight$weight)
 ```
 
 mean(ChickWeight$weight) calculates the average value in the ChickWeight weight column.  It takes the total sum of the data and de=ivides it by the number of observations.
+mean(ChickWeight$weight) calculates the average value in the ChickWeight weight column.  It takes the total sum of the data and divides it by the number of observations.
 
 ```{r}
 myChkWts <-ChickWeight$weight 
@@ -75,9 +76,12 @@ abline(v = quantiles[2], col = "purple", lwd = 2, lty = 2)
 
 # Add text labels for quantiles, mean, and median
 text(x = mean_weight, y = max(table(cut(myChkWts, breaks = 10))) - 20, labels = "Mean", col = "red", pos = 2, srt = 90)
+text(x = mean_weight, y = max(table(cut(myChkWts, breaks = 10))) - 5, labels = "Mean", col = "red", pos = 2, srt = 90)
 text(x = median_weight, y = max(table(cut(myChkWts, breaks = 10))) - 5, labels = "Median", col = "blue", pos = 2, srt = 90)
 text(x = quantiles[1], y = max(table(cut(myChkWts, breaks = 10))) - 10, labels = "Q 0.025", col = "purple", pos = 2, srt = 90)
 text(x = quantiles[2], y = max(table(cut(myChkWts, breaks = 10))) - 15, labels = "Q 0.975", col = "purple", pos = 2, srt = 90)
+text(x = quantiles[1], y = max(table(cut(myChkWts, breaks = 10))) - 20, labels = "Q 0.025", col = "purple", pos = 2, srt = 90)
+text(x = quantiles[2], y = max(table(cut(myChkWts, breaks = 10))) - 20, labels = "Q 0.975", col = "purple", pos = 2, srt = 90)
 
 
 ```
@@ -107,6 +111,7 @@ sample_size <- 11
 num_samples <- 1000
 
 # Create a function to draw a sample and calculate the mean
+# Function to select a sample and calculate its mean
 sample_mean <- function(data, size) {
   mean(sample(data, size, replace = TRUE))
 }
