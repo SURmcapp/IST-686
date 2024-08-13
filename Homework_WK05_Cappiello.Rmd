@@ -1,0 +1,153 @@
+---
+title: "Homework Chapter 5 - Mark Cappiello"
+output: 
+   word_document: default
+---
+
+6. The PlantGrowth data set contains three different groups, with each representing various plant food diets (you may need to type data(PlantGrowth) to activate it). The group labeled “ctrl” is the control group, while “trt1” and “trt2” are different types of experimental treatment. As a reminder, this subsetting statement accesses the weight data for the control group:
+
+PlantGrowth$weight[PlantGrowth$group==”ctrl”] 
+
+and this subsetting statement accesses the weight data for treatment group 1:
+
+PlantGrowth$weight[PlantGrowth$group==”trt1”] 
+
+Run a t-test to compare the means of the control group (“ctrl”) and treatment group 1 (“trt1”) in the PlantGrowth data. Report the observed value of t, the degrees of freedom, and the p-value associated with the observed value. Assuming an alpha threshold of .05, decide whether you should reject the null hypothesis or fail to reject the null hypothesis. In addition, report the upper and lower bound of the confidence interval. 
+
+
+```{r}
+data("PlantGrowth")
+
+# Subset the data for ctrl and trt1 groups 
+ctrl <- PlantGrowth$weight[PlantGrowth$group == "ctrl"]
+trt1 <- PlantGrowth$weight[PlantGrowth$group == "trt1"]
+
+# Perform the t-test
+t_test_result <- t.test(ctrl, trt1)
+t_test_result
+
+```
+Observed values ctrl and trt1:
+
+t_value = 1.19126
+
+degrees_freedom = 16.52359
+
+p_value = 0.2503825 ( is greater than the alpha threshold, 0.05 ) 
+
+Conclusion: Fail to reject the null hypothesis.
+
+95 percent confidence interval lower bound -0.2875162
+
+95 percent confidence interval upper bound 1.029516
+
+0 is in the Confidence Interval
+
+---------------------------------------------------------------------------------------------------------------------
+
+7. Install and library() the BEST package. Note that you may need to install a program called JAGS onto your computer before you try to install the BEST package inside of R. Use BESTmcmc() to compare the PlantGrowth control group (“ctrl”) to treatment group 1 (“trt1”). Plot the result and document the boundary values that BESTmcmc() calculated for the HDI. Write a brief definition of the meaning of the HDI and interpret the results from this comparison. 
+
+```{r}
+library(BEST)
+best_result <- BESTmcmc(ctrl, trt1)
+plot(best_result)
+```
+
+```{r}
+# Document the boundary values that BESTmcmc() calculated for the HDI
+hdi_values <- hdi(best_result)
+hdi_values
+```
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+8. Compare and contrast the results of Exercise 6 and Exercise 7. You have three types of evidence: the results of the null hypothesis test, the confidence interval, and the HDI from the BESTmcmc() procedure. Each one adds something, in turn, to the understanding of the difference between groups. Explain what information each test provides about the comparison of the control group (“ctrl”) and the treatment group 1 (“trt1”).
+
+
+results of the null hypothesis test: 
+
+p_value = 0.2503825 ( is greater than the alpha threshold, 0.05 ) Conclusion: Fail to reject the null hypothesis. There is NO statistically significant evidence to suggest a difference between the groups. 
+
+Confidence Interval: 
+
+Since the confidence interval includes 0, this suggests the true difference in means could be zero and there is no significant difference between groups. 
+
+the HDI from the BESTmcmc() function:
+
+If the HDI includes 0, it suggests that there's a credible chance that the true difference in means is zero, meaning there's no strong evidence for a difference. 
+
+given mu1 HDI: [4.577970, 5.477889] and mu2 HDI: [4.033154, 5.231113]
+
+The difference in the lower bounds is mu1 lower 4.577970 −  mu2 upper 5.231113 = −0.653143
+
+The difference in the upper bounds is mu1 upper 5.477889 − mu2 lower 4.033154 = 1.444735
+
+HDI=[−0.653143,1.444735]
+
+Since the difference can range is from approximately −0.65 to 1.44, the HDI for the difference between mu1 and mu2 does include zero. This says that there is a credible probability that the difference between the means could be zero, meaning there might not be a significant difference between the "ctrl" and "trt1" groups.
+
+
+---------------------------------------------------------------------------------------------------------------------
+9. Using the same PlantGrowth data set, compare the “ctrl” group to the “trt2” group. Use all of the methods described earlier (t-test, confidence interval, and Bayesian method) and explain all of the results. 
+
+```{r}
+# Subset the data for ctrl and trt1 groups 
+ctrl <- PlantGrowth$weight[PlantGrowth$group == "ctrl"]
+trt2 <- PlantGrowth$weight[PlantGrowth$group == "trt2"]
+
+# Perform the t-test
+t_test_result2 <- t.test(ctrl, trt2)
+t_test_result2
+
+```
+
+Observed values ctrl, trt2:
+
+t_value = -2.13402
+
+degrees_freedom = 16.78576 
+
+p_value = 0.04789926 ( is less than the alpha threshold, 0.05 ) 
+
+Conclusion: Reject the null hypothesis.
+
+95 percent confidence interval lower bound -0.9828721 
+
+95 percent confidence interval upper bound -0.00512787
+
+0 is NOT in the Confidence Interval
+
+```{r}
+best_result2 <- BESTmcmc(ctrl, trt2)
+plot(best_result2)
+```
+
+
+```{r}
+hdi_values2 <- hdi(best_result2)
+hdi_values2
+```
+results of the null hypothesis test: 
+
+p_value = 0.04789926 ( is less than the alpha threshold, 0.05 ) Conclusion: Reject the null hypothesis. So, there is statistically significant evidence to suggest a difference between the groups. 
+
+Confidence Interval: 
+
+Since the confidence interval DOES NOT include 0, this suggests the true difference in means may not be zero and there is a significant difference between groups. 
+
+the HDI from the BESTmcmc() function:
+
+If the HDI includes 0, it suggests that there's a credible chance that the true difference in means is zero, meaning there's no strong evidence for a difference. 
+
+given mu1 HDI: [4.572902, 5.475229] and mu2 HDI: [5.171588, 5.851086]
+
+The difference in the lower bounds is mu1 lower 4.572902 −  mu2 upper 5.851086 = −1.273075
+
+The difference in the upper bounds is mu1 upper 5.475229 − mu2 lower 5.171588 = 0.303529 
+
+HDI=[−1.273075,0.303529]
+
+Since the difference can range is from approximately −1.27 to 0.30, the HDI for the difference between mu1 and mu2 does include zero. This says that there is a credible probability that the difference between the means could be zero, meaning there might not be a significant difference between the "ctrl" and "trt2" groups.

@@ -2,7 +2,7 @@
 title: "Homework Chapter 4 - Mark Cappiello"
 output:
   word_document: default
-  html_notebook: default
+
 ---
 
 7. The built-in PlantGrowth data set contains three different groups, each representing a different plant food diet (you may need to type data(PlantGrowth) to activate it). The group labeled “ctrl” is the control group, while the other two groups are each a different type of experimental treatment. Run the summary() command on PlantGrowth and explain the output. Create a histogram of the ctrl group. As a hint about R syntax, here is one way that you can access the ctrl group data:

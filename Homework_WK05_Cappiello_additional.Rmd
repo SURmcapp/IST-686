@@ -1,0 +1,130 @@
+---
+title: "Homework Chapter 5 - Mark Cappiello"
+output: 
+   word_document: default
+---
+
+6. The PlantGrowth data set contains three different groups, with each representing various plant food diets (you may need to type data(PlantGrowth) to activate it). The group labeled “ctrl” is the control group, while “trt1” and “trt2” are different types of experimental treatment. As a reminder, this subsetting statement accesses the weight data for the control group:
+
+PlantGrowth$weight[PlantGrowth$group==”ctrl”] 
+
+and this subsetting statement accesses the weight data for treatment group 1:
+
+PlantGrowth$weight[PlantGrowth$group==”trt1”] 
+
+Run a t-test to compare the means of the control group (“ctrl”) and treatment group 1 (“trt1”) in the PlantGrowth data. Report the observed value of t, the degrees of freedom, and the p-value associated with the observed value. Assuming an alpha threshold of .05, decide whether you should reject the null hypothesis or fail to reject the null hypothesis. In addition, report the upper and lower bound of the confidence interval. 
+
+
+```{r}
+data("PlantGrowth")
+
+# Subset the data for the ctrl and trt1 groups using subset() function 
+ctrl_subset <- subset(PlantGrowth, group == "ctrl")$weight
+trt1_subset <- subset(PlantGrowth, group == "trt1")$weight
+
+# Subset the data for ctrl and trt1 groups using the method discussed in class
+ctrl <- PlantGrowth$weight[PlantGrowth$group == "ctrl"]
+trt1 <- PlantGrowth$weight[PlantGrowth$group == "trt1"]
+
+# Perform the t-test
+t_test_result <- t.test(ctrl, trt1)
+t_test_result
+
+# sorry this is jut me experimenting
+typeof(t_test_result)
+t_test_result[0]
+t_test_result[1]
+t_test_result[2]
+t_test_result[3]
+t_test_result[4]
+```
+
+```{r}
+# Extract the t-value, degrees of freedom, p-value and confidence interval
+t_value <- t_test_result$statistic
+degrees_freedom <- t_test_result$parameter
+p_value <- t_test_result$p.value
+confidence_interval <- t_test_result$conf.int
+
+# Print the observed results
+cat("Observed values: \n")
+cat("t_value =",t_value, "\n")
+cat("degrees_freedom =",degrees_freedom, "\n")
+cat("p_value =",p_value, "\n")
+
+```
+```{r}
+alpha_threshold <- 0.05
+
+if (p_value < alpha_threshold) {
+  cat("Conclusion: Reject the null hypothesis.\n\n")
+} else {
+  cat("Conclusion: Fail to reject the null hypothesis.\n\n")
+}
+
+cat("95 percent confidence interval lower bound",confidence_interval[1],"\n")
+cat("95 percent confidence interval upper bound",confidence_interval[2],"\n")
+
+```
+
+7. Install and library() the BEST package. Note that you may need to install a program called JAGS onto your computer before you try to install the BEST package inside of R. Use BESTmcmc() to compare the PlantGrowth control group (“ctrl”) to treatment group 1 (“trt1”). Plot the result and document the boundary values that BESTmcmc() calculated for the HDI. Write a brief definition of the meaning of the HDI and interpret the results from this comparison. 
+
+```{r}
+library(BEST)
+best_result <- BESTmcmc(ctrl, trt1)
+plot(best_result)
+```
+
+```{r}
+hdi_values <- hdi(best_result)
+hdi_values
+```
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+8. Compare and contrast the results of Exercise 6 and Exercise 7. You have three types of evidence: the results of the null hypothesis test, the confidence interval, and the HDI from the BESTmcmc() procedure. Each one adds something, in turn, to the understanding of the difference between groups. Explain what information each test provides about the comparison of the control group (“ctrl”) and the treatment group 1 (“trt1”).
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+9. Using the same PlantGrowth data set, compare the “ctrl” group to the “trt2” group. Use all of the methods described earlier (t-test, confidence interval, and Bayesian method) and explain all of the results. 
+
+```{r}
+# Subset the data for ctrl and trt1 groups 
+ctrl <- PlantGrowth$weight[PlantGrowth$group == "ctrl"]
+trt2 <- PlantGrowth$weight[PlantGrowth$group == "trt2"]
+
+# Perform the t-test
+t_test_result2 <- t.test(ctrl, trt2)
+t_test_result2
+
+# Extract the t-value, degrees of freedom, p-value and confidence interval
+t_value2 <- t_test_result2$statistic
+degrees_freedom2 <- t_test_result2$parameter
+p_value2 <- t_test_result2$p.value
+confidence_interval2 <- t_test_result2$conf.int
+
+# Print the observed results
+cat("Observed values ctrl, trt2: \n")
+cat("t_value =",t_value2, "\n")
+cat("degrees_freedom =",degrees_freedom2, "\n")
+cat("p_value =",p_value2, "\n")
+
+alpha_threshold <- 0.05
+
+if (p_value2 < alpha_threshold) {
+  cat("Conclusion: Reject the null hypothesis.\n\n")
+} else {
+  cat("Conclusion: Fail to reject the null hypothesis.\n\n")
+}
+
+cat("95 percent confidence interval lower bound",confidence_interval2[1],"\n")
+cat("95 percent confidence interval upper bound",confidence_interval2[2],"\n")
+```
